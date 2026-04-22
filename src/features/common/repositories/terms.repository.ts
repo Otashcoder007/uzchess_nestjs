@@ -1,8 +1,15 @@
 import { BaseRepository } from '../../../core/repositories/base-repository';
-import { Author } from '../entities/author.entity';
+import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Terms } from '../entities/terms.entity';
 
-export abstract class TermsRepository extends BaseRepository<Author> {
-  protected constructor() {
+export class TermsRepository extends BaseRepository<Terms> {
+  constructor(
+    protected readonly config: ConfigService,
+    @InjectRepository(Terms)
+    protected readonly repo: Repository<Terms>,
+  ) {
     super();
   }
 }

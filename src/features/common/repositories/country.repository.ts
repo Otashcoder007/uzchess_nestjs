@@ -1,8 +1,15 @@
 import { BaseRepository } from '../../../core/repositories/base-repository';
-import { Author } from '../entities/author.entity';
+import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Country } from '../entities/country.entity';
 
-export abstract class CountryRepository extends BaseRepository<Author> {
-  protected constructor() {
+export class CountryRepository extends BaseRepository<Country> {
+  constructor(
+    protected readonly config: ConfigService,
+    @InjectRepository(Country)
+    protected readonly repo: Repository<Country>,
+  ) {
     super();
   }
 }
