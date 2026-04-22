@@ -1,0 +1,31 @@
+services:
+  postgres:
+    env_file: .env
+    image: postgres:18-alpine
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg-isReady -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - uzchess
+  backend:
+    env_file: .env
+    build: .
+    container_name: uzchess
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "2345:2345"
+    networks:
+      uzchess:
+networks:
+  uzchess:
+    driver:
+      bridge
+volumes:
+  uploads:
+  postgres_data:
