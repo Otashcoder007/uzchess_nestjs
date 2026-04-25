@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { User } from '../entities/user.entity';
-import { OtpCode } from '../entities/otp-code.entity';
-import { OtpType } from '../../../core/enums/otp-type.enum';
+import {User} from "../entities/user.entity";
+import {OtpType} from "../../../core/enums/otp-type.enum";
+import {OtpCode} from "../entities/otp-code.entity";
 
 @Injectable()
-export class OtpCodeService {
+export class OtpCodePublicService {
   async sendOtp(user: User, type: OtpType) {
     await this.deleteOtps(user.id);
 
@@ -16,6 +16,7 @@ export class OtpCodeService {
 
     await OtpCode.save(otpCode);
     console.log(otpCode);
+    // TODO: otpni haqiqiy send qilish shu yerda bo'ladi
   }
 
   async verifyOtp(userId: number, code: string) {

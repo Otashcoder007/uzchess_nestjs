@@ -14,9 +14,7 @@ import { Role } from '../enums/role.enum';
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     let roles = this.reflector.getAllAndOverride<Role[]>(RolesKey, [
       context.getHandler(),
       context.getClass(),
@@ -32,7 +30,7 @@ export class RolesGuard implements CanActivate {
     }
 
     if (!roles.includes(user.role)) {
-      throw new ForbiddenException('For admins only');
+      throw new ForbiddenException();
     }
 
     return true;

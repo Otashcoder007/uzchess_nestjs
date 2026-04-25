@@ -7,10 +7,10 @@ export class BaseModelListDto {
   id!: number;
 
   @Expose()
-  @ApiProperty()
+  @ApiProperty({ example: '2026-01-01T13:59:00.000Z' })
   created!: string;
 
   @Expose()
-  @ApiProperty()
+  @ApiProperty({ example: '2026-01-01T13:59:00.000Z' })
   updated?: string;
 }

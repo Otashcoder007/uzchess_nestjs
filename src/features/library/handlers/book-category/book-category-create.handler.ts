@@ -10,7 +10,6 @@ export class BookCategoryCreateHandler implements ICommandHandler<BookCategoryCr
 
   async execute(command: BookCategoryCreateCommand) {
     let alreadyExists = await this.repo.existsByTitle(command.payload.title);
-    // @ts-ignore
     if (alreadyExists) {
       throw new BadRequestException('Already exists');
     }

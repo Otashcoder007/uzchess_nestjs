@@ -40,13 +40,13 @@ export class NewsControllerAdmin {
   @Get()
   @ApiOkResponse({ type: () => NewsListAdminDto, isArray: true })
   async getAll(@Query() filters: NewsFilter) {
-    return await this.service.findAll();
+    return await this.service.getAll(filters);
   }
 
   @Get(':id')
   @ApiOkResponse({ type: () => NewsDetailAdminDto })
   async getOne(@Param('id', ParseIntPipe) id: number): Promise<NewsDetailAdminDto> {
-    return await this.service.findOne(id);
+    return await this.service.getOne(id);
   }
 
   @Patch(':id')

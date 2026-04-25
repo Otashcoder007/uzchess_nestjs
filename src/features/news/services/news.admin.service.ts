@@ -4,45 +4,50 @@ import { News } from '../entities/news.entity';
 import { NewsCreateAdminDto } from '../dtos/news/admin/news.create.admin.dto';
 import { NewsUpdateAdminDto } from '../dtos/news/admin/news.update.admin.dto';
 import { NewsListAdminDto } from '../dtos/news/admin/news.list.admin.dto';
+import { NewsAdminRepository } from '../repository/news.admin.repository';
+import { NewsFilter } from '../filter/news.filter';
 import { NewsDetailAdminDto } from '../dtos/news/admin/news.detail.admin.dto';
 
 @Injectable()
 export class NewsAdminService {
+  constructor(private readonly repo: NewsAdminRepository) {}
+
   async create(payload: NewsCreateAdminDto, image: Express.Multer.File): Promise<News> {
     let newNews = News.create({ ...payload, image: image.path });
-    await News.save(newNews);
+    await this.repo.save(newNews);
     return newNews;
   }
 
-  async update(id: number, payload: NewsUpdateAdminDto): Promise<News> {
-    let news = await News.findOneBy({ id });
+  async update(id: number, payload: NewsUpdateAdminDto) {
+    let news = await this.repo.getOneById(id);
     if (!news) {
       throw new NotFoundException('Does not exist');
     }
 
     Object.assign(news, Object.fromEntries(Object.entries(payload).filter(([key, value]) => value != null)));
-    await News.save(news);
+    return await this.repo.save(news);
+  }
+
+  async getAll(filters: NewsFilter) {
+    let news = await this.repo.getAll(filters);
+    news.data = plainToInstance(NewsListAdminDto, news.data, { excludeExtraneousValues: true });
     return news;
   }
 
-  async findAll(): Promise<NewsListAdminDto[]> {
-    let news = await News.find();
-    let data = plainToInstance(NewsListAdminDto, news, { excludeExtraneousValues: true });
-    return data;
-  }
-
-  async findOne(id: number) {
-    let news = await News.findOneBy({ id });
-    let data = plainToInstance(NewsDetailAdminDto, news, { excludeExtraneousValues: true });
-    return data;
+  async getOne(id: number) {
+    let news = await this.repo.getOneById(id);
+    if (!news) {
+      throw new NotFoundException('News with given id not found');
+    }
+    return plainToInstance(NewsDetailAdminDto, news, { excludeExtraneousValues: true });
   }
 
   async delete(id: number) {
-    let news = await News.findOneBy({ id });
+    let news = await this.repo.getOneById(id);
     if (!news) {
       throw new NotFoundException('Does not exist');
     }
 
-    await News.remove(news);
+    return await this.repo.delete(news);
   }
 }

@@ -1,14 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { SignInDto } from '../dtos/sign-in.dto';
-import { AuthenticationService } from '../services/authentication.service';
-import { SignUpDto } from '../dtos/sign-up.dto';
-import { ResendOtpDto } from '../dtos/resend-otp.dto';
-import { VerifyOtpDto } from '../dtos/verify-otp.dto';
-import { SetPasswordDto } from '../dtos/set-password.dto';
+import { SignUpDto } from '../dtos/user/public/sign-up.dto';
+import { SignInDto } from '../dtos/user/public/sign-in.dto';
+import { VerifyOtpDto } from '../dtos/user/public/verify-otp.dto';
+import { ResendOtpDto } from '../dtos/user/public/resend-otp.dto';
+import { SetPasswordDto } from '../dtos/user/public/set-password.dto';
+import { AuthenticationPublicService } from '../services/authentication.public.service';
 
 @Controller('auth')
-export class AuthenticationController {
-  constructor(private readonly authService: AuthenticationService) {}
+export class AuthenticationPublicController {
+  constructor(private readonly authService: AuthenticationPublicService) {}
 
   @Post('sign-up')
   async signUp(@Body() payload: SignUpDto) {

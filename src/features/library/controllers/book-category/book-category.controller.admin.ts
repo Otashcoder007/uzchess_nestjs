@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { BookCategoryCreateDtoAdmin } from '../../dtos/book-category/admin/book-category.create.dto.admin';
 import { BookCategoryServiceAdmin } from '../../services/book-category/book-category.service.admin';
 import { BookCategoryUpdateDtoAdmin } from '../../dtos/book-category/admin/book-category.update.dto.admin';
@@ -6,6 +6,8 @@ import { BookCategoryListDtoAdmin } from '../../dtos/book-category/admin/book-ca
 import { ApiOkResponse } from '@nestjs/swagger';
 import { Roles } from '../../../../core/decorators/roles.decorator';
 import { Role } from '../../../../core/enums/role.enum';
+import { PaginationFilters } from '../../../common/filters/pagination.filters';
+import { PaginatedResultDto } from '../../../common/dtos/paginated-result.dto';
 
 @Controller('admin/book-category')
 @Roles(Role.Admin, Role.SuperAdmin)
@@ -18,9 +20,9 @@ export class BookCategoryControllerAdmin {
   }
 
   @Get()
-  @ApiOkResponse({ type: () => BookCategoryListDtoAdmin, isArray: true })
-  async findAll(): Promise<BookCategoryListDtoAdmin[]> {
-    return await this.service.getAll();
+  @ApiOkResponse({ type: () => PaginatedResultDto(BookCategoryListDtoAdmin) })
+  async findAll(@Query() filters: PaginationFilters) {
+    return await this.service.getAll(filters);
   }
 
   @Patch(':id')

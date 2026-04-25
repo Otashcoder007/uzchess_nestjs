@@ -1,8 +1,8 @@
-import { ConfigService } from '@nestjs/config';
-import { FindOptionsWhere, Repository } from 'typeorm';
-import { BaseModel } from '../base-model.entity';
 import { PaginationFilters } from '../../features/common/filters/pagination.filters';
 import { PaginatedResult } from '../../features/common/dtos/paginated-result.dto';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { BaseModel } from '../base-model.entity';
+import { ConfigService } from '@nestjs/config';
 
 export abstract class BaseRepository<T extends BaseModel> {
   protected abstract config: ConfigService;
