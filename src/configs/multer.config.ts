@@ -17,8 +17,8 @@ function getFileType(mime: string): string {
 
 export const storageOptions = diskStorage({
   destination: (req, file, cb) => {
-    let subFolder: string = getFileType(file.mimetype);
-    let destination: string = `./uploads/${subFolder}`;
+    const subFolder: string = getFileType(file.mimetype);
+    const destination: string = `./uploads/${subFolder}`;
     if (!fs.existsSync('./uploads')) {
       fs.mkdirSync('./uploads', { recursive: true });
     }
@@ -28,12 +28,12 @@ export const storageOptions = diskStorage({
     cb(null, destination);
   },
   filename: (req, file, cb) => {
-    let extension = file.originalname.split('.').pop();
+    const extension = file.originalname.split('.').pop();
     if (!extension) {
       return cb(new BadRequestException('File does not have extension'), '');
     }
-    let prefix = getFileType(file.mimetype);
-    let fileName = `${prefix}_${Date.now()}.${extension}`;
+    const prefix = getFileType(file.mimetype);
+    const fileName = `${prefix}_${Date.now()}.${extension}`;
     return cb(null, fileName);
   },
 });

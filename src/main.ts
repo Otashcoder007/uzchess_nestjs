@@ -1,9 +1,10 @@
 import 'dotenv/config';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { GlobalFilter } from './core/filters/global-filter';
+import { configureSwagger } from './configs/swagger.config';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { configureSwagger } from './configs/swagger.config';
-import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import morgan from 'morgan';
 
@@ -18,6 +19,7 @@ async function bootstrap() {
     }),
   );
   app.use(morgan('dev'));
+  app.useGlobalFilters(new GlobalFilter());
 
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',

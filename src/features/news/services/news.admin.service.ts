@@ -4,9 +4,9 @@ import { News } from '../entities/news.entity';
 import { NewsCreateAdminDto } from '../dtos/news/admin/news.create.admin.dto';
 import { NewsUpdateAdminDto } from '../dtos/news/admin/news.update.admin.dto';
 import { NewsListAdminDto } from '../dtos/news/admin/news.list.admin.dto';
-import { NewsAdminRepository } from '../repository/news.admin.repository';
 import { NewsFilter } from '../filter/news.filter';
 import { NewsDetailAdminDto } from '../dtos/news/admin/news.detail.admin.dto';
+import {NewsAdminRepository} from "../repositories/news.admin.repository";
 
 @Injectable()
 export class NewsAdminService {

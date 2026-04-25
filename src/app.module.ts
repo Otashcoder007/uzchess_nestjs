@@ -13,6 +13,8 @@ import { ReportsModule } from './features/reports/reports.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { RolesGuard } from './core/guards/roles.guard';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtModuleConfig } from './configs/jwt-module.config';
 
 @Module({
   providers: [
@@ -21,7 +23,7 @@ import { RolesGuard } from './core/guards/roles.guard';
   ],
   imports: [
     CqrsModule.forRoot(),
-    ConfigModule.forRoot(configModuleOptions),
+    JwtModule.register(jwtModuleConfig),
     TypeOrmModule.forRoot(typeOrmConfig),
     ConfigModule.forRoot(configModuleOptions),
     AuthenticationModule,

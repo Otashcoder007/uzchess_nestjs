@@ -20,4 +20,4 @@ export const configModuleOptions: ConfigModuleOptions = {
     DEFAULT_SIZE: Joi.number().required(),
     DEFAULT_PAGE: Joi.number().required(),
   }),
-}
+};

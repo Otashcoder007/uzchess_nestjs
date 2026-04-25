@@ -4,7 +4,9 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { NewsFilter } from '../filter/news.filter';
+import {Injectable} from "@nestjs/common";
 
+@Injectable()
 export class NewsAdminRepository extends BaseRepository<News> {
   constructor(
     protected readonly config: ConfigService,

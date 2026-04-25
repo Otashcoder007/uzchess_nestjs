@@ -1,12 +1,10 @@
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
   type: 'postgres',
   url: process.env.DB_URL,
   synchronize: false,
-  entities: ['./dist/**/*.entities.(t|j)s'],
-  migrations: ['./dist/migration/*.(t|j)s'],
+  entities: ['./dist/**/*.entities.(t|j)'],
+  migrations: ['./dist/migration/*.(t|j)'],
 });
-
-export default AppDataSource;
